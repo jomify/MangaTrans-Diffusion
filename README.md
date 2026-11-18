@@ -29,6 +29,8 @@ images to specify the characters to write.
 | :--- | :--- | :--- | :--- |
 | 119.3M parameters | Source page + glyph image | Rectified flow, overlapping tiles | MIT code + DiT weights |
 
+> **Availability:** Code and v3 weights are live in [GitHub Releases](https://github.com/jomify/MangaTrans-Diffusion/releases/tag/v0.1.0). The Hugging Face model mirror and hosted Space are pending publication.
+
 ## Quick start
 
 Python **3.10+**, a **CUDA GPU**, and a Chinese font are required for inference.
@@ -41,11 +43,11 @@ python -m venv .venv
 # Linux/macOS: source .venv/bin/activate
 # Windows PowerShell: .venv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
-hf download Jomify/MangaTrans-Diffusion-v3 model.safetensors config.json --local-dir weights/mangatrans-v3
+# Download model.safetensors and config.json from the release into weights/mangatrans-v3/
 python translate_page.py page.png examples/regions.json out.png --weights weights/mangatrans-v3
 ```
 
-Alternatively, download the two files directly from the [model repository](https://huggingface.co/Jomify/MangaTrans-Diffusion-v3).
+Download the two files from [the release assets](https://github.com/jomify/MangaTrans-Diffusion/releases/tag/v0.1.0) before running inference.
 Edit `examples/regions.json` to fit **your own input page** before running.
 Inference also loads the separately licensed FLUX.1-dev VAE. Obtain access under
 its upstream terms, or pass `--vae /path/to/local/vae`. The VAE is not bundled;

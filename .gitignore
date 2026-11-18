@@ -1,0 +1,31 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.coverage
+.venv/
+venv/
+.omx/
+.claude/
+pytest-cache-files-*/
+.cache/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.log
+dist/
+
+# training data and anything derived from it must never be committed
+dataset/
+data/
+out/
+runs/
+eval/
+*.zip
+
+# weights are distributed separately (e.g. a model hub), not through git
+weights/*
+!weights/README.md
+*.pt
+*.safetensors

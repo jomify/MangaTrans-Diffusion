@@ -1,0 +1,12 @@
+torch>=2.6
+diffusers>=0.30
+safetensors
+numpy
+opencv-python
+pillow
+
+# development and evaluation only
+pytest
+tensorboard
+rapidocr
+onnxruntime

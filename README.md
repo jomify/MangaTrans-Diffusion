@@ -1,6 +1,8 @@
 <div align="center">
 
-![MangaTrans-Diffusion — Chinese lettering with a diffusion transformer](docs/assets/hero.svg)
+![A station attendant shelters a calico cat under a red umbrella. The balloon reads “走吧”.](showcase/rainy-platform.webp)
+
+<sub>Cover illustration and lettering by ImageGen.</sub>
 
 # MangaTrans-Diffusion
 
@@ -23,7 +25,6 @@ images to specify the characters to write.
 
 > **Research text renderer.** Detection, translation, and box planning are supplied
 > by the caller. The Space is an interactive method showcase, not hosted inference.
-> Illustrations are schematic, not model outputs.
 
 | Model | Conditioning | Sampling | Release |
 | :--- | :--- | :--- | :--- |

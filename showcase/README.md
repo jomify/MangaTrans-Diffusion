@@ -24,8 +24,7 @@ that renders supplied Chinese text inside supplied manga text regions.
 [Model weights](https://huggingface.co/Jomify/MangaTrans-Diffusion-v3)
 
 This static Space explains the method. It does **not** run inference, upload
-images, perform OCR, or translate text. Its original diagrams are schematic
-illustrations, not generated results. Run the Python CLI on a CUDA machine for
+images, perform OCR, or translate text. ImageGen supplied the cover illustration and lettering. The interactive diagram illustrates local compositing. Run the Python CLI on a CUDA machine for
 actual inference. No GPU service or paid hosting is required for this page.
 
 The source code and released DiT weights use MIT. Third-party VAE and font terms

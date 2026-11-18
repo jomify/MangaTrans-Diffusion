@@ -1,6 +1,8 @@
 <div align="center">
 
-![MangaTrans-Diffusion：用扩散 Transformer 为漫画写入中文](docs/assets/hero.svg)
+![雨后的站台上，站务员为一只三花猫撑起红伞，说「走吧」。](showcase/rainy-platform.webp)
+
+<sub>封面插画与对白由 ImageGen 生成。</sub>
 
 # MangaTrans-Diffusion
 
@@ -16,7 +18,7 @@
 它用字形图指定要写的内容，从配对页面中学习嵌字风格。
 
 > **这是研究用文字渲染器。** 原文检测、日译中和排版框规划由调用方完成。
-> Hugging Face Space 是方法交互展示页，不提供在线推理；插图为原创示意，非模型生成结果。
+> Hugging Face Space 是方法交互展示页，不提供在线推理。
 
 | 主干 | 条件 | 采样 | 开源内容 |
 | :--- | :--- | :--- | :--- |

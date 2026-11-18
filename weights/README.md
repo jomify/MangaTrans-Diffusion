@@ -21,6 +21,12 @@ tags:
 [Project showcase](https://huggingface.co/spaces/Jomify/MangaTrans-Diffusion) ·
 [中文说明](https://github.com/jomify/MangaTrans-Diffusion/blob/main/README.zh-CN.md)
 
+## Japanese input and v3 output
+
+![Japanese source on the left and v3 lettering on the right](https://raw.githubusercontent.com/jomify/MangaTrans-Diffusion/main/showcase/example/comparison.webp)
+
+The supplied translation for **おはよう** is **早上好**. The right panel was produced by the published checkpoint. [Inference recipe and full-resolution files](https://github.com/jomify/MangaTrans-Diffusion/tree/main/showcase/example) · [Model architecture](https://github.com/jomify/MangaTrans-Diffusion/blob/main/showcase/architecture.svg)
+
 ## Model details
 
 | Item | Value |

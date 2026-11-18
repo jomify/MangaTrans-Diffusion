@@ -16,8 +16,8 @@ reproduce a visual problem. The project does not redistribute its training data.
 
 The showcase is a self-contained static page in `showcase/index.html`. Preview it
 with `python -m http.server 8765 --bind 127.0.0.1 --directory showcase` and check desktop,
-mobile, keyboard navigation, and both languages. Its illustrations must remain
-clearly identified as schematic examples, not model outputs.
+mobile, keyboard navigation, and both languages. Credit source artwork and link actual renders to the input, region file,
+and inference settings that produced them.
 
 Commit messages should explain the motivation. Optional Git trailers such as
 `Tested:`, `Not-tested:`, and `Constraint:` preserve useful context.

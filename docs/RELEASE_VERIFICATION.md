@@ -21,10 +21,14 @@ dc62cbd1fd7d5700e1df430022089747658044772c66fc901791c60121b6aa84
 
 ## Not rerun
 
-Full training, full-page GPU inference through the VAE, multi-GPU execution,
+Full training, multi-GPU execution,
 and OCR evaluation on the original data were not rerun for this release.
 The README's 72.1% / 46.0% results remain historical project-reported metrics.
 
 The local environment emits a pre-existing `pynvml` deprecation warning.
 Formatting across the historical research code is not normalized; this release
 avoids a large unrelated reformat.
+
+## Published inference example
+
+The [Japanese/Chinese pair](../showcase/example/README.md) ran through the released DiT, frozen VAE, and local compositor on a CUDA GPU. The recipe records the exact input, box, settings, and output hash.

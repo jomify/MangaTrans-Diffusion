@@ -1,18 +1,24 @@
 <div align="center">
 
-![雨后的站台上，站务员为一只三花猫撑起红伞，说「走吧」。](showcase/rainy-platform.webp)
-
-<sub>封面插画与对白由 ImageGen 生成。</sub>
-
 # MangaTrans-Diffusion
-
-**让文字融入画面。**
 
 从零训练的 1.193 亿参数扩散 Transformer，为指定漫画区域渲染中文。
 
-[English](README.md) · [模型权重](https://huggingface.co/Jomify/MangaTrans-Diffusion-v3) · [交互展示页](https://huggingface.co/spaces/Jomify/MangaTrans-Diffusion) · [MIT 许可](LICENSE)
+[English](README.md) · [模型权重](https://github.com/jomify/MangaTrans-Diffusion/releases/tag/v0.1.0) · [GPU 推理样例](showcase/example/README.md) · [MIT 许可](LICENSE)
 
 </div>
+
+## 翻译前后对比
+
+![左：气泡里是日文「おはよう」。右：同一页中，v3 将给定译文「早上好」竖排写入气泡。](showcase/example/comparison.webp)
+
+左图是用 ImageGen 制作的全年龄日文输入页，右图是公开的 v3 权重在 RTX 4060 Laptop GPU 上的实际输出。传入的译文为「早上好」。放大气泡可以看到，中文笔画边缘略有抖动。
+
+[日文输入 PNG](showcase/example/source.png) · [中文输出 PNG](showcase/example/output.png) · [文字与坐标](showcase/example/regions.json) · [复现命令](showcase/example/README.md)
+
+## 架构图
+
+[![推理架构：原图经过冻结的 VAE 编码，中文字形折叠为 64 个通道，DiT 分块预测速度场，解码后按羽化蒙版与原图合成。](showcase/architecture.svg)](showcase/architecture.svg)
 
 输入漫画页和若干组「位置框 + 中文文本」，模型重绘文字区域，再与原图合成。
 它用字形图指定要写的内容，从配对页面中学习嵌字风格。

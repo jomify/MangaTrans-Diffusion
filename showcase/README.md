@@ -17,15 +17,17 @@ tags:
 
 # MangaTrans-Diffusion · Project showcase
 
-A bilingual interactive explanation of a 119.3M-parameter diffusion transformer
-that renders supplied Chinese text inside supplied manga text regions.
+A bilingual visual explanation of a 119.3M-parameter diffusion transformer,
+with the repository's all-ages before/after sample and implementation diagram.
 
 [Source code](https://github.com/jomify/MangaTrans-Diffusion) ·
 [Model weights](https://huggingface.co/Jomify/MangaTrans-Diffusion-v3)
 
-This static Space explains the method. It does **not** run inference, upload
-images, perform OCR, or translate text. ImageGen supplied the cover illustration and lettering. The interactive diagram illustrates local compositing. Run the Python CLI on a CUDA machine for
-actual inference. No GPU service or paid hosting is required for this page.
+The page shows the Japanese `おはよう` source beside the v3 `早上好` render,
+links to the full-resolution files and `example/regions.json`, and then explains
+the inference architecture. The paired images are a repository sample and the
+Chinese string is supplied by the caller. Run the Python CLI on a CUDA machine
+for additional inference. No GPU service or paid hosting is required for this page.
 
 The source code and released DiT weights use MIT. Third-party VAE and font terms
 remain separate. See the model card for provenance, evaluation limitations,

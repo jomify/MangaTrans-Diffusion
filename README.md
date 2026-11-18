@@ -1,22 +1,28 @@
 <div align="center">
 
-![A station attendant shelters a calico cat under a red umbrella. The balloon reads “走吧”.](showcase/rainy-platform.webp)
-
-<sub>Cover illustration and lettering by ImageGen.</sub>
-
 # MangaTrans-Diffusion
-
-**Give the page its words. Keep its character.**
 
 A diffusion transformer trained from scratch to render supplied Chinese text into manga pages.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-222222.svg)](LICENSE)
 [![CPU tests](https://github.com/jomify/MangaTrans-Diffusion/actions/workflows/tests.yml/badge.svg)](https://github.com/jomify/MangaTrans-Diffusion/actions/workflows/tests.yml)
-[![Weights](https://img.shields.io/badge/Hugging_Face-Weights-cc442f)](https://huggingface.co/Jomify/MangaTrans-Diffusion-v3)
+[![Weights](https://img.shields.io/badge/GitHub-Weights-cc442f)](https://github.com/jomify/MangaTrans-Diffusion/releases/tag/v0.1.0)
 
-[中文说明](README.zh-CN.md) · [Project showcase](https://huggingface.co/spaces/Jomify/MangaTrans-Diffusion) · [Reproduction](docs/REPRODUCING.md)
+[中文说明](README.zh-CN.md) · [GPU example](showcase/example/README.md) · [Reproduction](docs/REPRODUCING.md)
 
 </div>
+
+## Japanese input and Chinese output
+
+![Left: the gardener says おはよう to a cat. Right: v3 renders the supplied Chinese greeting 早上好 in the same balloon.](showcase/example/comparison.webp)
+
+ImageGen produced the Japanese input panel on the left. The panel on the right is the released v3 checkpoint’s output on an RTX 4060 Laptop GPU, given the translation **早上好**. Zooming in reveals slight irregularities along the Chinese strokes.
+
+[Japanese input PNG](showcase/example/source.png) · [v3 output PNG](showcase/example/output.png) · [Text and box coordinates](showcase/example/regions.json) · [Reproduce this pair](showcase/example/README.md)
+
+## Architecture
+
+[![Inference architecture: encode the page, fold glyphs into 64 channels, sample tiled DiT velocities, decode, and composite the edited region.](showcase/architecture.svg)](showcase/architecture.svg)
 
 MangaTrans-Diffusion takes a page and a list of **text boxes + Chinese strings**,
 repaints the lettering regions, and composites the result back onto the source.
@@ -92,12 +98,6 @@ promise byte-identical preservation at the original resolution.
 Python entry point: `mtdiff.infer.PageTranslator`.
 
 ## Method
-
-```text
-Source page ── frozen VAE ── source latent + noise ─┐
-                                                 ├─ DiT flow ─ VAE decode ─ local composite
-Chinese text + boxes ── glyph rendering ── 8× fold ┘
-```
 
 1. **Start near the source.** Sampling starts at the source latent plus 0.5-scaled noise.
 2. **Preserve glyph detail.** Text is rendered in a plain font and pixel-unshuffled by eight into 64 conditioning channels, without a VAE round trip.

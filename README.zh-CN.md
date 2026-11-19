@@ -30,7 +30,7 @@
 | :--- | :--- | :--- | :--- |
 | 119.3M 参数 DiT | 原图 + 字形图 | Rectified flow + 重叠分块 | MIT 代码与 DiT 权重 |
 
-> **发布状态：** 代码在 GitHub，v3 权重在 [Hugging Face](https://huggingface.co/Jomify/MangaTrans-Diffusion-v3)（同样的文件也附在 [GitHub Release](https://github.com/jomify/MangaTrans-Diffusion/releases/tag/v0.1.0) 上）；在线 Space 尚待发布。
+> **发布状态：** 代码在 GitHub，v3 权重在 [Hugging Face](https://huggingface.co/Jomify/MangaTrans-Diffusion-v3)（同样的文件也附在 [GitHub Release](https://github.com/jomify/MangaTrans-Diffusion/releases/tag/v0.1.0) 上）；[展示页 Space](https://huggingface.co/spaces/Jomify/MangaTrans-Diffusion) 已上线，它是项目展示页，不提供在线推理。
 
 ## 快速开始
 

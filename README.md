@@ -35,7 +35,7 @@ images to specify the characters to write.
 | :--- | :--- | :--- | :--- |
 | 119.3M parameters | Source page + glyph image | Rectified flow, overlapping tiles | MIT code + DiT weights |
 
-> **Availability:** Code is on GitHub and the v3 weights are on [Hugging Face](https://huggingface.co/Jomify/MangaTrans-Diffusion-v3) (the same files are also attached to the [GitHub Release](https://github.com/jomify/MangaTrans-Diffusion/releases/tag/v0.1.0)). The hosted Space is pending publication.
+> **Availability:** Code is on GitHub and the v3 weights are on [Hugging Face](https://huggingface.co/Jomify/MangaTrans-Diffusion-v3) (the same files are also attached to the [GitHub Release](https://github.com/jomify/MangaTrans-Diffusion/releases/tag/v0.1.0)). The static [showcase Space](https://huggingface.co/spaces/Jomify/MangaTrans-Diffusion) is live; it is a project page, not hosted inference.
 
 ## Quick start
 

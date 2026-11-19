@@ -1,63 +1,507 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="MangaTrans-Diffusion — a real before and after example, architecture diagram, and reproducible diffusion model release.">
-<title>MangaTrans-Diffusion · before / after</title>
+<meta name="description" content="MangaTrans-Diffusion: a 119.3M-parameter diffusion transformer, trained from scratch, that writes supplied Chinese text into Japanese manga pages.">
+<meta property="og:title" content="MangaTrans-Diffusion">
+<meta property="og:description" content="Write Chinese into manga, not over it.">
+<meta property="og:image" content="example/comparison.webp">
+<meta name="theme-color" content="#0a0a0b">
+<title>MangaTrans-Diffusion · Chinese lettering for manga pages</title>
+<script>document.documentElement.classList.add("js")</script>
 <style>
-:root{--paper:#f4ecdf;--ink:#171615;--muted:#6f675d;--red:#c13c26;--line:#17161538;--max:1160px}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.55 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.2;background-image:radial-gradient(#17161535 .5px,transparent .5px);background-size:6px 6px;mix-blend-mode:multiply}a{color:inherit}.wrap{width:min(var(--max),calc(100% - 40px));margin-inline:auto}.nav{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:22px 0;border-bottom:1px solid var(--line)}.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:800;letter-spacing:-.03em}.mark{display:grid;place-items:center;width:30px;height:30px;border:2px solid var(--ink);border-radius:50%;font:20px Georgia,serif;color:var(--red);transform:rotate(-8deg)}.nav-links{display:flex;align-items:center;gap:18px;color:var(--muted);font-size:13px}.nav-links a{text-decoration:none}.nav-links a:hover{color:var(--red)}button{font:inherit}.lang{cursor:pointer;border:1px solid var(--ink);background:transparent;border-radius:999px;padding:7px 12px;font-size:12px}
-h1,h2,h3{margin:0;font-family:Georgia,"Times New Roman",serif;font-weight:500;letter-spacing:-.06em;line-height:.98}h1{max-width:760px;margin-top:12px;font-size:clamp(44px,6vw,74px)}h2{font-size:clamp(36px,4vw,58px)}h3{font-size:30px}.kicker{color:var(--red);font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}.hero{padding:34px 0 30px}.hero p{max-width:680px;margin:15px 0 0;font-size:16px;color:#39332e}.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:19px}.button{display:inline-block;padding:10px 14px;border:1px solid var(--ink);border-radius:4px;text-decoration:none;font-size:13px;font-weight:750}.button.primary{background:var(--ink);color:var(--paper)}.button:hover{transform:translateY(-2px)}
-section{padding:66px 0;border-top:1px solid var(--line)}.head{margin-bottom:28px}.head p{max-width:700px;margin:14px 0 0;color:var(--muted);font-size:15px}.comparison{display:grid;grid-template-columns:1fr 1fr;gap:18px}.sample{margin:0;padding:12px;background:#fffaf1;border:1px solid var(--ink);box-shadow:8px 8px 0 #17161516}.sample img{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:contain;background:#e6dccd}.sample figcaption{padding:14px 3px 4px}.sample-title{display:flex;justify-content:space-between;gap:10px;font-weight:800}.sample-title span:last-child{color:var(--red);font:12px/1.2 Arial,sans-serif;letter-spacing:.1em;text-transform:uppercase}.sample p{margin:9px 0 0;color:var(--muted);font-size:13px}.sample a{display:inline-block;margin-top:11px;color:var(--red);font-size:12px;font-weight:700}.comparison-note{margin-top:22px;padding:15px 16px;border-left:3px solid var(--red);background:#c13c2614;color:#5c332c;font-size:13px}
-.architecture{padding:14px;background:#fffaf1;border:1px solid var(--ink);box-shadow:8px 8px 0 #17161516}.architecture img{display:block;width:100%;height:auto;background:#e6dccd}.architecture figcaption{display:flex;justify-content:space-between;gap:16px;padding:14px 3px 2px;color:var(--muted);font-size:13px}.architecture figcaption a{color:var(--red);font-weight:700;white-space:nowrap}.metrics{display:grid;grid-template-columns:1.2fr .8fr;gap:28px}.metric-table{width:100%;border-collapse:collapse;font-size:13px}.metric-table th,.metric-table td{padding:14px 9px;border-bottom:1px solid var(--line);text-align:left}.metric-table th{color:var(--muted);font-size:10px;letter-spacing:.08em;text-transform:uppercase}.metric-table td:nth-child(2){color:var(--red);font-weight:800}.aside{padding:24px;background:var(--ink);color:var(--paper)}.aside h3{color:var(--paper);font-size:37px}.aside p{color:#c9bdb0;font-size:13px}.aside a{color:#ff987f}.install{padding:26px;background:var(--ink);color:var(--paper)}.install h3{color:var(--paper)}pre{margin:22px 0 0;padding:18px;overflow:auto;color:#ffd4ca;background:#282321;border:1px solid #f4ecdf33;font:13px/1.7 "SFMono-Regular",Consolas,monospace}.install small{display:block;margin-top:13px;color:#c9bdb0}.footer{display:flex;justify-content:space-between;gap:18px;padding:28px 0 46px;border-top:1px solid var(--line);color:var(--muted);font-size:12px}.footer a{color:var(--ink)}.zh{display:none}html[data-lang=zh] .en{display:none}html[data-lang=zh] .zh{display:inline}
-@media(max-width:850px){.head,.metrics{grid-template-columns:1fr;gap:16px}.comparison{grid-template-columns:1fr}.nav-links a{display:none}.sample{box-shadow:5px 5px 0 #17161516}}
-@media(max-width:520px){.wrap{width:calc(100% - 28px)}.hero{padding:54px 0 44px}h1{font-size:54px}section{padding:66px 0}.architecture figcaption{display:block}.architecture figcaption a{display:block;margin-top:8px}.footer{flex-direction:column}}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
-#comparison { border: 0; padding: 32px 0 18px; }
-#comparison h1 { margin: 0; font-size: clamp(32px, 4.2vw, 56px); }
-#comparison .head { margin: 0 0 20px; }
-.sample figcaption { padding: 2px 4px 12px; font-weight: 650; }
-.sample figcaption strong { color: var(--red); }
-.sample > a { display: block; margin: 0; }
-.sample-links { font-size: 14px; }
-.architecture { margin-inline: 0; }
+:root{
+  --bg:#0a0a0b;--bg-2:#111113;--card:#151518;--card-2:#1b1b1f;
+  --line:#ffffff1f;--line-2:#ffffff12;
+  --text:#f4f0e8;--mute:#a7a298;--faint:#6f6b63;--paper:#f4efe6;
+  --verm:#ff4a2b;--verm-2:#ff8a6b;--verm-deep:#c8260f;
+  --max:1280px;
+  --serif:"Noto Serif SC","Noto Serif JP","Source Han Serif SC","Songti SC","Yu Mincho","Hiragino Mincho ProN","Times New Roman",serif;
+  --sans:"Inter","Helvetica Neue",ui-sans-serif,system-ui,-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+  --mono:"JetBrains Mono","IBM Plex Mono",ui-monospace,"SFMono-Regular",Consolas,monospace;
+  --ease:cubic-bezier(.16,1,.3,1);
+  --grain:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  --grain-dark:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 2.2 -.6'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:84px;background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.65 var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden}
+body:after{content:"";position:fixed;inset:0;z-index:100;pointer-events:none;background-image:var(--grain);opacity:.06;mix-blend-mode:screen}
+a{color:inherit}
+button{font:inherit;color:inherit}
+img{display:block}
+:focus-visible{outline:2px solid var(--verm);outline-offset:3px}
+::selection{background:var(--verm);color:#fff}
+.wrap{width:min(var(--max),calc(100% - 56px));margin-inline:auto}
+
+.zh{display:none}
+html[data-lang=zh] .en{display:none}
+html[data-lang=zh] .zh{display:inline}
+
+/* floating nav */
+.nav{position:fixed;top:16px;left:50%;z-index:60;transform:translateX(-50%);width:min(var(--max),calc(100% - 32px))}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:20px;height:56px;padding:0 10px 0 22px;border:1px solid var(--line);border-radius:999px;background:#0a0a0bb8;backdrop-filter:blur(18px) saturate(1.3);-webkit-backdrop-filter:blur(18px) saturate(1.3)}
+.word{display:flex;align-items:center;gap:12px;text-decoration:none}
+.dot{width:12px;height:12px;border-radius:50%;background:var(--verm);box-shadow:0 0 18px var(--verm)}
+.word b{font:600 16px var(--serif);letter-spacing:-.01em}
+.word i{font:normal 11px var(--mono);color:var(--faint);letter-spacing:.06em}
+.links{display:flex;align-items:center;gap:6px}
+.links a{padding:8px 14px;border-radius:999px;font-size:13px;color:var(--mute);text-decoration:none;transition:color .2s,background .2s}
+.links a:hover{color:var(--text);background:#ffffff14}
+.toggle{cursor:pointer;margin-left:6px;border:1px solid var(--line);background:transparent;border-radius:999px;padding:8px 14px;font:12px var(--mono);letter-spacing:.04em;transition:all .2s}
+.toggle:hover{background:var(--text);color:var(--bg);border-color:var(--text)}
+
+/* hero */
+.hero{position:relative;min-height:max(100vh,820px);padding:150px 0 90px;overflow:hidden;isolation:isolate}
+.ambient{position:absolute;inset:-10%;z-index:-3;background:url("example/output.png") center/cover;filter:blur(70px) saturate(1.5) brightness(.55);opacity:.55}
+.vignette{position:absolute;inset:0;z-index:-2;background:radial-gradient(ellipse at 70% 40%,transparent 0,#0a0a0b 72%),linear-gradient(#0a0a0b00 60%,var(--bg))}
+.sun{position:absolute;z-index:-1;right:-6%;top:70px;width:min(58vw,820px);aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle at 32% 28%,#ff7a58 0,#ee3a1d 46%,#b01e0a 100%);box-shadow:0 0 160px #ff4a2b55}
+.sun:after{content:"";position:absolute;inset:0;border-radius:50%;
+  background-image:radial-gradient(#0000004d 1.4px,transparent 1.6px);background-size:11px 11px;
+  -webkit-mask-image:linear-gradient(115deg,transparent 25%,#000 85%);mask-image:linear-gradient(115deg,transparent 25%,#000 85%)}
+.hero-grid{display:grid;grid-template-columns:minmax(0,5.2fr) minmax(0,6.8fr);gap:clamp(64px,7vw,104px);align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;padding:7px 14px;border:1px solid var(--line);border-radius:999px;background:#ffffff0a;font:11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--verm-2)}
+.eyebrow:before{content:"";width:6px;height:6px;border-radius:50%;background:var(--verm);animation:pulse 2s infinite}
+@keyframes pulse{50%{opacity:.25}}
+h1{margin:26px 0 0;font:600 clamp(44px,5.7vw,104px)/.98 var(--serif);letter-spacing:-.05em;text-wrap:balance}
+h1 em{font-style:normal;background:linear-gradient(100deg,var(--verm) 10%,#ffb15e);-webkit-background-clip:text;background-clip:text;color:transparent}
+html[data-lang=zh] h1{letter-spacing:-.025em;line-height:1.1}
+.lead{margin:28px 0 0;max-width:520px;font-size:clamp(16px,1.4vw,19px);color:#d0cbc0;text-wrap:pretty}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:36px}
+.btn{display:inline-flex;align-items:center;gap:10px;height:50px;padding:0 26px;border-radius:999px;text-decoration:none;font-size:14px;font-weight:600;border:1px solid var(--line);transition:transform .4s var(--ease),background .25s,color .25s,box-shadow .3s}
+.btn:hover{transform:translateY(-3px)}
+.btn.solid{background:var(--paper);color:#111;border-color:var(--paper)}
+.btn.solid:hover{background:var(--verm);border-color:var(--verm);color:#fff;box-shadow:0 14px 40px -8px var(--verm)}
+.btn.line{background:#ffffff0a;backdrop-filter:blur(8px)}
+.btn.line:hover{background:#ffffff1c}
+.btn svg{width:14px;height:14px}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:40px}
+.pill{padding:8px 14px;border:1px solid var(--line);border-radius:12px;background:#ffffff0a;backdrop-filter:blur(8px);font:12px var(--mono);color:var(--mute)}
+.pill b{color:var(--text);font-weight:500;font-size:15px;margin-right:6px}
+
+/* stage with tilt */
+.stage-wrap{position:relative;perspective:1400px}
+.stage{position:relative;transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .25s ease-out;transform-style:preserve-3d;will-change:transform}
+.frame{position:relative;padding:12px;border-radius:22px;background:#f4efe6;box-shadow:0 50px 120px -20px #000c,0 0 0 1px #fff3 inset}
+.reveal{position:relative;aspect-ratio:3/2;overflow:hidden;border-radius:12px;background:#222;user-select:none;-webkit-user-select:none;touch-action:pan-y}
+.reveal img.layer{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
+.reveal .before{clip-path:inset(0 calc(100% - var(--pos,50%)) 0 0);will-change:clip-path}
+.tag{position:absolute;top:12px;z-index:3;padding:5px 11px;border-radius:999px;font:10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;background:#0a0a0bd0;color:#fff;pointer-events:none;backdrop-filter:blur(6px)}
+.tag.l{left:12px}.tag.r{right:12px;background:var(--verm)}
+.cut{position:absolute;top:0;bottom:0;left:var(--pos,50%);width:0;z-index:4;pointer-events:none}
+.cut:before{content:"";position:absolute;top:0;bottom:0;left:-1px;width:2px;background:#fff;box-shadow:0 0 20px #fffa}
+.grip{position:absolute;top:50%;left:0;width:48px;height:48px;margin:-24px 0 0 -24px;display:grid;place-items:center;border-radius:50%;background:#fff;color:#111;box-shadow:0 10px 30px #0008;font:600 17px/1 var(--sans);transition:transform .3s var(--ease)}
+.reveal:hover .grip{transform:scale(1.12)}
+.reveal input{position:absolute;inset:0;z-index:5;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize}
+.reveal:has(input:focus-visible){outline:2px solid var(--verm);outline-offset:4px}
+.region{position:absolute;z-index:2;border:1.5px dashed var(--verm);opacity:0;transition:opacity .35s;pointer-events:none;box-shadow:0 0 0 1px #fff8}
+.region span{position:absolute;left:-1px;bottom:100%;margin-bottom:3px;white-space:nowrap;font:10px var(--mono);color:#fff;background:var(--verm);padding:1px 6px;border-radius:3px}
+.region.erase{border-width:1px;border-color:#ff4a2b99;box-shadow:none}
+.region.erase span{top:100%;bottom:auto;margin:3px 0 0;background:#0a0a0bd0}
+.reveal.show .region{opacity:1}
+.frame-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 6px 2px;font:11.5px var(--mono);color:#4b463e}
+.toggle-r{cursor:pointer;border:1px solid #1111;background:#1111;border-radius:999px;padding:6px 14px;font:11.5px var(--mono);color:#111;transition:all .2s}
+.toggle-r:hover{background:#111;color:#fff}
+.toggle-r[aria-pressed=true]{background:var(--verm);border-color:var(--verm);color:#fff}
+.tate{--fs:clamp(34px,3.6vw,56px);position:absolute;z-index:6;left:calc(-1 * var(--fs) - 30px);top:6px;display:flex;flex-direction:column;align-items:center;gap:16px;transform:translateZ(60px);pointer-events:none}
+.tate-box{position:relative;height:calc(var(--fs) * 4.3);width:calc(var(--fs) * 1.1)}
+.tate-box span{position:absolute;inset:0;display:grid;place-items:start center;white-space:nowrap;writing-mode:vertical-rl;text-orientation:upright;font:700 var(--fs)/1.04 var(--serif);letter-spacing:.04em;color:#fff;text-shadow:0 6px 30px #000a,0 0 2px #0008;transition:opacity .9s var(--ease),filter .9s var(--ease),transform .9s var(--ease)}
+.tate-box .ja{opacity:0;filter:blur(10px);transform:translateY(-12px)}
+.tate[data-show=ja] .ja{opacity:1;filter:none;transform:none}
+.tate[data-show=ja] .zhc{opacity:0;filter:blur(10px);transform:translateY(12px)}
+.seal{display:grid;place-items:center;width:42px;height:42px;border-radius:4px;background:var(--verm);color:#fff;font:700 22px var(--serif);transform:rotate(-6deg);box-shadow:0 10px 30px #ff4a2b66}
+.hint{position:absolute;right:20px;bottom:-34px;font:11px var(--mono);color:var(--mute);letter-spacing:.08em}
+
+/* ticker */
+.ticker{border-block:1px solid var(--line);background:var(--bg-2);overflow:hidden;white-space:nowrap}
+.ticker-track{display:inline-flex;gap:0;animation:slide 40s linear infinite}
+.ticker span{display:inline-flex;align-items:center;gap:26px;padding:18px 26px 18px 0;font:500 14px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.ticker span:after{content:"✦";color:var(--verm)}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+/* sections */
+section{padding:clamp(80px,11vw,160px) 0 0}
+.sec-head{max-width:880px;margin-bottom:clamp(40px,5vw,72px)}
+.idx{display:inline-flex;align-items:center;gap:12px;font:11px var(--mono);letter-spacing:.16em;color:var(--verm)}
+.idx:after{content:"";width:60px;height:1px;background:var(--verm)}
+h2{margin:18px 0 0;font:600 clamp(36px,5.4vw,78px)/1.04 var(--serif);letter-spacing:-.045em;text-wrap:balance}
+html[data-lang=zh] h2{letter-spacing:-.02em}
+.sec-head p{margin:22px 0 0;max-width:620px;color:var(--mute);font-size:16px;text-wrap:pretty}
+
+/* method cards */
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.card{position:relative;padding:14px 14px 26px;border:1px solid var(--line);border-radius:22px;background:linear-gradient(180deg,var(--card-2),var(--card));transition:transform .5s var(--ease),border-color .3s}
+.card:hover{transform:translateY(-6px);border-color:#ff4a2b66}
+.viz{position:relative;aspect-ratio:4/3;overflow:hidden;border-radius:14px;background:#000}
+.viz img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:40% 40%}
+.viz .lab{position:absolute;left:10px;top:10px;z-index:3;padding:4px 9px;border-radius:999px;background:#0a0a0bcc;font:10px var(--mono);letter-spacing:.08em;color:#fff;backdrop-filter:blur(6px)}
+.viz.encode:after{content:"";position:absolute;inset:0;background-image:linear-gradient(#ff4a2bb0 1px,transparent 1px),linear-gradient(90deg,#ff4a2bb0 1px,transparent 1px);background-size:18px 18px;animation:grid 6s ease-in-out infinite alternate}
+@keyframes grid{from{background-size:18px 18px;opacity:.9}to{background-size:36px 36px;opacity:.35}}
+.viz.glyph{display:grid;place-items:center;background:#050505}
+.viz.glyph:before{content:"";position:absolute;inset:0;background-image:linear-gradient(#ffffff14 1px,transparent 1px),linear-gradient(90deg,#ffffff14 1px,transparent 1px);background-size:16px 16px}
+.viz.glyph b{position:relative;z-index:2;writing-mode:vertical-rl;text-orientation:upright;font:700 clamp(40px,4.4vw,62px)/1 var(--serif);color:#fff;letter-spacing:.06em;padding:12px 16px;border:1.5px dashed var(--verm);text-shadow:0 0 24px #ffffff66}
+.viz.flow .noise{position:absolute;inset:0;background-image:var(--grain-dark);background-size:100px;animation:denoise 5s ease-in-out infinite alternate}
+@keyframes denoise{from{opacity:.95}to{opacity:0}}
+.viz.flow .t{position:absolute;right:10px;bottom:10px;z-index:3;font:11px var(--mono);color:#fff;background:#0a0a0bcc;padding:3px 9px;border-radius:999px}
+.viz.comp:after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 15% 32% at 44.5% 23%,#ff4a2b66 0,#ff4a2b44 55%,transparent 100%);mix-blend-mode:screen;animation:breathe 3.4s ease-in-out infinite alternate}
+@keyframes breathe{from{opacity:.55}to{opacity:1}}
+.card .no{display:block;margin:20px 8px 0;font:italic 500 38px/1 var(--serif);color:var(--verm)}
+.card h3{margin:12px 8px 8px;font:600 22px/1.2 var(--serif);letter-spacing:-.02em}
+.card p{margin:0 8px;color:var(--mute);font-size:13.5px;text-wrap:pretty}
+.card code{font:12px var(--mono);background:#ffffff14;padding:1px 6px;border-radius:4px;color:var(--paper)}
+.arch{margin:20px 0 0;padding:clamp(10px,1.6vw,22px);background:var(--paper);border-radius:22px;box-shadow:0 40px 100px -40px #000}
+.arch img{width:100%;height:auto;border-radius:10px}
+.arch figcaption{display:flex;justify-content:space-between;gap:16px;padding:14px 6px 2px;font:12px var(--mono);color:#5a554c}
+.arch figcaption a{color:var(--verm-deep);text-decoration:none;white-space:nowrap;font-weight:600}
+
+/* close-up */
+.zoom{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.zoom figure{position:relative;margin:0;border-radius:24px;overflow:hidden;background:var(--card);border:1px solid var(--line)}
+.zoom .win{position:relative;aspect-ratio:1;overflow:hidden;background:#222}
+.zoom .win img{position:absolute;left:-128%;top:-19%;width:400%;max-width:none;height:auto;transition:transform 1.2s var(--ease)}
+.zoom figure:hover .win img{transform:scale(1.06)}
+.zoom .win:after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 55%,#000a)}
+.zoom figcaption{position:absolute;left:0;right:0;bottom:0;z-index:2;display:flex;justify-content:space-between;align-items:end;padding:22px 26px;font:12px var(--mono);color:#fffc}
+.zoom figcaption b{font:700 clamp(32px,4vw,56px)/1 var(--serif);color:#fff;letter-spacing:.02em}
+.zoom .out{border-color:#ff4a2b88;box-shadow:0 0 80px -20px #ff4a2b88}
+.zoom .out figcaption span{color:var(--verm-2)}
+
+/* results */
+.rows{margin:0;padding:0;list-style:none;display:grid;gap:14px}
+.row{display:grid;grid-template-columns:minmax(0,3.2fr) minmax(0,6fr) auto;gap:clamp(14px,3vw,44px);align-items:center;padding:22px 28px;border:1px solid var(--line);border-radius:20px;background:var(--card)}
+.row .name{font-size:15px}
+.row .name small{display:block;margin-top:3px;font:11.5px var(--mono);color:var(--faint)}
+.meter{position:relative;height:16px;border-radius:99px;background:#ffffff10;overflow:hidden}
+.meter i{position:absolute;inset:0 auto 0 0;width:var(--w);border-radius:99px;background:#e9e4d9;transform:scaleX(0);transform-origin:left;transition:transform 1.5s var(--ease)}
+.in .meter i{transform:scaleX(1)}
+.row:nth-child(2) .meter i{transition-delay:.1s}.row:nth-child(3) .meter i{transition-delay:.2s}.row:nth-child(4) .meter i{transition-delay:.3s}
+.row.floor .meter i{background:repeating-linear-gradient(90deg,#e9e4d9 0 2px,transparent 2px 6px)}
+.row.ceil .meter i{background:#ffffff44}
+.row .num{font:500 clamp(30px,3.4vw,48px)/1 var(--serif);letter-spacing:-.04em;min-width:3.3em;text-align:right;font-variant-numeric:tabular-nums}
+.row.ours{border-color:#ff4a2b88;background:linear-gradient(100deg,#ff4a2b26,var(--card) 60%);box-shadow:0 0 70px -24px #ff4a2b}
+.row.ours .meter i{background:linear-gradient(90deg,var(--verm-deep),var(--verm),#ffb15e);box-shadow:0 0 24px #ff4a2b}
+.row.ours .num{color:var(--verm)}
+.fine{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,6vw,100px);margin-top:34px}
+.fine p{margin:0;font-size:13px;color:var(--mute);text-wrap:pretty}
+.fails{margin:0;padding:0;list-style:none;display:grid;gap:10px;font-size:13px;color:var(--mute)}
+.fails a{color:var(--verm-2);text-decoration:none;font:12px var(--mono)}
+
+/* run */
+.run{position:relative;display:grid;grid-template-columns:minmax(0,4.4fr) minmax(0,7fr);gap:clamp(24px,5vw,72px);align-items:center;padding:clamp(30px,5vw,68px);border-radius:32px;overflow:hidden;background:var(--paper);color:#111;isolation:isolate}
+.run:before{content:"";position:absolute;z-index:-1;right:-120px;top:-120px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#ff7a58,#e0331a)}
+.run h2{font-size:clamp(32px,4vw,54px);margin:0}
+.run p{margin:16px 0 0;font-size:13.5px;color:#4b463e}
+.run a{color:var(--verm-deep);font-weight:600}
+.code{position:relative}
+.code pre{margin:0;padding:26px 24px;overflow:auto;background:#0e0e10;border-radius:16px;color:#ffd9cf;font:13px/1.85 var(--mono);box-shadow:0 30px 70px -30px #000}
+.copy{position:absolute;top:12px;right:12px;cursor:pointer;border:1px solid #ffffff33;background:#1b1b1f;color:#f4f0e8;border-radius:999px;padding:5px 14px;font:11px var(--mono);letter-spacing:.06em;transition:all .2s}
+.copy:hover{background:var(--verm);border-color:var(--verm)}
+
+.foot{display:flex;justify-content:space-between;gap:18px;padding:40px 0 56px;margin-top:clamp(80px,11vw,160px);border-top:1px solid var(--line);font:12px var(--mono);color:var(--faint)}
+.foot a{color:var(--mute);text-decoration:none}
+.foot a:hover{color:var(--verm-2)}
+
+/* entrance */
+.js .rise{opacity:0;transform:translateY(28px);transition:opacity 1s var(--ease),transform 1s var(--ease);transition-delay:var(--d,0s)}
+.js .rise.in{opacity:1;transform:none}
+
+@media(max-width:1100px){
+  .cards{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:960px){
+  .hero{padding-top:120px}
+  .hero-grid{grid-template-columns:1fr;gap:56px}
+  .sun{width:90vw;right:-30%;top:40px}
+  .tate{--fs:34px;left:10px;top:-8px}
+  .stage{margin-top:0}
+  .zoom,.fine,.run{grid-template-columns:1fr}
+  .links a{display:none}
+  .hint{display:none}
+}
+@media(max-width:560px){
+  .wrap{width:calc(100% - 32px)}
+  .nav-in{padding-left:16px}
+  .word i{display:none}
+  .cards{grid-template-columns:1fr}
+  .frame{padding:8px;border-radius:16px}
+  .row{grid-template-columns:1fr auto;row-gap:12px;padding:18px}
+  .row .meter{grid-column:1/-1;order:3}
+  .arch figcaption,.foot{flex-direction:column}
+  .zoom figcaption{padding:16px 18px}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*:before,*:after{transition:none!important;animation:none!important}
+  .js .rise{opacity:1;transform:none}
+  .meter i{transform:none}
+  .ticker-track{transform:none}
+}
 </style>
 </head>
 <body>
-<header class="wrap nav"><a class="brand" href="#top" aria-label="MangaTrans-Diffusion home"><span class="mark">文</span><span>MangaTrans / Diffusion</span></a><nav class="nav-links" aria-label="Primary navigation"><a href="#comparison"><span class="en">Before / after</span><span class="zh">前后对比</span></a><a href="#architecture"><span class="en">Architecture</span><span class="zh">架构</span></a><a href="#results"><span class="en">Results</span><span class="zh">结果</span></a><button class="lang" id="lang" type="button" aria-label="Switch language">中文 / EN</button></nav></header>
-<main id="top" class="wrap">
-<section id="comparison">
-  <header class="head">
-    <h1><span class="en">Japanese input and Chinese output</span><span class="zh">日文原页与中文嵌字结果</span></h1>
-    <p><span class="en">ImageGen created the source panel. MangaTrans-Diffusion v3 rendered the supplied translation in the same balloon.</span><span class="zh">日文原页由 ImageGen 制作。MangaTrans-Diffusion v3 将给定的中文译文写入同一气泡。</span></p>
-  </header>
-  <div class="comparison">
-    <figure class="sample">
-      <figcaption><span class="en">Before · Japanese input</span><span class="zh">翻译前 · 日文输入</span>　<strong lang="ja">おはよう</strong></figcaption>
-      <a href="example/source.png"><img src="example/source.png" width="768" height="512" alt="Gardener greeting a cat with おはよう in a vertical speech balloon."></a>
-    </figure>
-    <figure class="sample">
-      <figcaption><span class="en">After · v3 output</span><span class="zh">翻译后 · v3 输出</span>　<strong lang="zh-CN">早上好</strong></figcaption>
-      <a href="example/output.png"><img src="example/output.png" width="768" height="512" alt="Same panel with 早上好 rendered vertically by the released v3 checkpoint."></a>
-    </figure>
+
+<header class="nav"><div class="nav-in">
+  <a class="word" href="#top" aria-label="MangaTrans-Diffusion"><span class="dot" aria-hidden="true"></span><b>MangaTrans</b><i>diffusion · v3</i></a>
+  <nav class="links" aria-label="Primary">
+    <a href="#method"><span class="en">Method</span><span class="zh">方法</span></a>
+    <a href="#closeup"><span class="en">Close-up</span><span class="zh">细节</span></a>
+    <a href="#results"><span class="en">Results</span><span class="zh">结果</span></a>
+    <a href="#run"><span class="en">Run</span><span class="zh">运行</span></a>
+    <button class="toggle" id="lang" type="button" aria-label="Switch to Chinese">EN · 中</button>
+  </nav>
+</div></header>
+
+<main id="top">
+
+<div class="hero">
+  <div class="ambient" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+  <div class="sun" aria-hidden="true"></div>
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow rise"><span class="en">Research release · trained from scratch</span><span class="zh">研究发布 · 从零训练</span></div>
+      <h1 class="rise" style="--d:.08s">
+        <span class="en">Write Chinese into manga, <em>not over it.</em></span>
+        <span class="zh">把中文，<br><em>写进漫画里。</em></span>
+      </h1>
+      <p class="lead rise" style="--d:.16s">
+        <span class="en">A 119.3M-parameter diffusion transformer. Give it a page and the translated lines: it redraws the lettering inside the balloon and leaves the artwork untouched.</span>
+        <span class="zh">一个 1.193 亿参数的扩散 Transformer。给它漫画页和译文，它在气泡里重新写出文字，画面其余部分原样保留。</span>
+      </p>
+      <div class="cta rise" style="--d:.24s">
+        <a class="btn solid" href="https://github.com/jomify/MangaTrans-Diffusion/releases/tag/v0.1.0">
+          <span class="en">Get the weights</span><span class="zh">下载权重</span>
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7 1v9M3 6.5 7 10.5l4-4M1 13h12"/></svg>
+        </a>
+        <a class="btn line" href="https://github.com/jomify/MangaTrans-Diffusion">
+          <span class="en">View source</span><span class="zh">查看源码</span>
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 10 10 4M5 4h5v5"/></svg>
+        </a>
+      </div>
+      <div class="chips rise" style="--d:.32s">
+        <span class="pill"><b>119.3M</b><span class="en">params</span><span class="zh">参数</span></span>
+        <span class="pill"><b>72.1%</b><span class="en">CJK accuracy · reported</span><span class="zh">汉字准确率 · 历史记录</span></span>
+        <span class="pill"><b>MIT</b><span class="en">code + weights</span><span class="zh">代码与权重</span></span>
+      </div>
+    </div>
+
+    <div class="stage-wrap rise" id="stageWrap" style="--d:.12s">
+      <div class="stage" id="stage">
+        <div class="tate" id="tate" data-show="zh" aria-hidden="true">
+          <div class="tate-box"><span class="zhc" lang="zh-CN">早上好</span><span class="ja" lang="ja">おはよう</span></div>
+          <div class="seal" lang="ja">訳</div>
+        </div>
+        <figure class="frame" style="margin:0">
+          <div class="reveal" id="reveal" style="--pos:50%">
+            <img class="layer" src="example/output.png" width="768" height="512" alt="The same panel with the balloon lettered 早上好 in Chinese by the v3 checkpoint.">
+            <img class="layer before" src="example/source.png" width="768" height="512" alt="A gardener greets a cat; the balloon says おはよう in Japanese.">
+            <div class="region erase" style="left:41.1%;top:8.8%;width:6.8%;height:27.3%"><span>erase</span></div>
+            <div class="region" style="left:42.06%;top:12.3%;width:5.2%;height:20.3%"><span>box</span></div>
+            <span class="tag l"><span class="en">Japanese</span><span class="zh">日文原页</span></span>
+            <span class="tag r"><span class="en">v3 output</span><span class="zh">v3 输出</span></span>
+            <div class="cut" aria-hidden="true"><span class="grip">⇆</span></div>
+            <input id="slider" type="range" min="0" max="100" step="0.1" value="50" aria-label="Compare Japanese source and Chinese output">
+          </div>
+          <figcaption class="frame-foot">
+            <span><span class="en">Drag to compare</span><span class="zh">拖动对比</span></span>
+            <button class="toggle-r" id="regions" type="button" aria-pressed="false"><span class="en">Show input regions</span><span class="zh">显示输入区域</span></button>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
   </div>
-  <p class="sample-links"><a href="example/regions.json"><span class="en">Input text and boxes</span><span class="zh">译文与区域坐标</span></a> ·
-    <a href="#use"><span class="en">Reproduce this result</span><span class="zh">复现这组结果</span></a></p>
-</section>
-<section id="architecture"><div class="head"><h2><span class="en">Architecture</span><span class="zh">模型架构</span></h2><p><span class="en">Frozen VAE, glyph condition, 16-layer DiT, tiled rectified flow, VAE decode and soft-mask compositing.</span><span class="zh">冻结 VAE、字形条件、16 层 DiT、分块整流流、VAE 解码和软蒙版合成。</span></p></div><figure class="architecture"><a href="architecture.svg"><img src="architecture.svg" alt="MangaTrans-Diffusion architecture from source page and glyph condition through VAE, DiT rectified flow, tiled sampling and local compositing."></a><figcaption><span><span class="en">Released v3 inference path.</span><span class="zh">公开 v3 推理路径。</span></span><a href="architecture.svg"><span class="en">Open full size ↗</span><span class="zh">打开大图 ↗</span></a></figcaption></figure></section>
-<section id="results"><div class="head"><h2><span class="en">Reported results</span><span class="zh">历史结果</span></h2><p><span class="en">These figures come from the project's existing evaluation notes and were not independently rerun during packaging.</span><span class="zh">这些数字来自项目已有评测记录，本次整理没有独立重跑。</span></p></div><div class="metrics"><table class="metric-table"><thead><tr><th><span class="en">Image under test</span><span class="zh">被测图像</span></th><th><span class="en">CJK accuracy</span><span class="zh">汉字准确率</span></th><th><span class="en">Exact lines</span><span class="zh">整行全对</span></th></tr></thead><tbody><tr><td><span class="en">Japanese source page (floor)</span><span class="zh">日文原图（下限）</span></td><td>4.9%</td><td>0.7%</td></tr><tr><td><span class="en">Real-only training · v2</span><span class="zh">仅真实数据 · v2</span></td><td>60.7%</td><td>29.0%</td></tr><tr><td><strong><span class="en">+ synthetic variants · v3</span><span class="zh">+ 合成变体 · v3</span></strong></td><td><strong>72.1%</strong></td><td><strong>46.0%</strong></td></tr><tr><td><span class="en">Chinese reference through VAE (ceiling)</span><span class="zh">中文参考页经 VAE（上限）</span></td><td>98.1%</td><td>94.7%</td></tr></tbody></table><aside class="aside"><h3><span class="en">Research-grade ≠ finished.</span><span class="zh">研究水平，不等于成品。</span></h3><p><span class="en">Small text, dense characters, punctuation, screentone and artwork remain difficult. There is no cross-page style memory.</span><span class="zh">小字、多笔画字、标点、网点和画面上的文字仍然困难，也没有跨页风格记忆。</span></p><a href="https://github.com/jomify/MangaTrans-Diffusion/blob/main/README.md"><span class="en">Read full limitations ↗</span><span class="zh">查看完整局限 ↗</span></a></aside></div></section>
-<section id="use"><div class="head"><h2><span class="en">Run the same path locally.</span><span class="zh">在本地运行同一流程。</span></h2><p><span class="en">Download the released weights and pass an image plus a region file to the CLI.</span><span class="zh">下载公开权重，再把漫画页和区域文件交给 CLI。</span></p></div><div class="install"><h3><span class="en">Render this sample</span><span class="zh">运行这个样例</span></h3><pre><code>python translate_page.py showcase/example/source.png showcase/example/regions.json out.png --weights weights/mangatrans-v3 --width 0 --steps 30 --seed 0 --margin 12</code></pre><small><span class="en">A CUDA GPU and the separately licensed FLUX.1-dev VAE are required. See the <a href="https://github.com/jomify/MangaTrans-Diffusion#quick-start">README</a> for setup.</span><span class="zh">需要 CUDA 显卡和单独授权的 FLUX.1-dev VAE。配置见 <a href="https://github.com/jomify/MangaTrans-Diffusion/blob/main/README.zh-CN.md">中文说明</a>。</span></small></div></section>
+</div>
+
+<div class="ticker" aria-hidden="true"><div class="ticker-track" id="ticker"></div></div>
+
+<section id="method"><div class="wrap">
+  <div class="sec-head">
+    <span class="idx rise">01 · <span class="en">METHOD</span><span class="zh">方法</span></span>
+    <h2 class="rise" style="--d:.06s"><span class="en">From page to lettering in four moves.</span><span class="zh">原页到嵌字，<br>分四步。</span></h2>
+    <p class="rise" style="--d:.12s"><span class="en">The Chinese arrives as a glyph image, the flow starts from the source page itself, and only the edited region is pasted back. The art outside it is never regenerated.</span><span class="zh">中文以字形图输入，流从原页本身出发，只把被编辑的区域贴回原图，区域外的画面不会被重新生成。</span></p>
+  </div>
+  <div class="cards">
+    <article class="card rise">
+      <div class="viz encode"><img src="example/source.png" alt=""><span class="lab">H×W×3 → h×w×16</span></div>
+      <span class="no">01</span><h3><span class="en">Encode</span><span class="zh">编码</span></h3>
+      <p><span class="en">A frozen 16-channel VAE compresses the page to a latent 8× smaller.</span><span class="zh">冻结的 16 通道 VAE 把页面压成 8 倍小的隐变量。</span></p>
+    </article>
+    <article class="card rise" style="--d:.08s">
+      <div class="viz glyph"><b lang="zh-CN">早上好</b><span class="lab">64 channels</span></div>
+      <span class="no">02</span><h3><span class="en">Typeset a glyph map</span><span class="zh">排字形图</span></h3>
+      <p><span class="en">The text is set in a plain font inside your box and folded into <code>64</code> channels, bypassing the VAE so strokes stay sharp.</span><span class="zh">译文用标准字体排进你给的框，折叠成 <code>64</code> 个通道，绕开 VAE，笔画不会被糊掉。</span></p>
+    </article>
+    <article class="card rise" style="--d:.16s">
+      <div class="viz flow"><img src="example/source.png" alt=""><div class="noise"></div><span class="lab">source + 0.5·ε</span><span class="t">t: 1 → 0</span></div>
+      <span class="no">03</span><h3><span class="en">Flow from the source</span><span class="zh">从原页出发</span></h3>
+      <p><span class="en">A 16-layer DiT starts near the source and predicts velocity over overlapping 512&nbsp;px tiles.</span><span class="zh">16 层 DiT 从原页附近出发，在重叠的 512&nbsp;像素分块上预测速度。</span></p>
+    </article>
+    <article class="card rise" style="--d:.24s">
+      <div class="viz comp"><img src="example/output.png" alt=""><span class="lab">soft mask α</span></div>
+      <span class="no">04</span><h3><span class="en">Composite</span><span class="zh">合成</span></h3>
+      <p><span class="en">Decode, then blend through a feathered mask. Pixels outside the region come straight from the input.</span><span class="zh">解码后用羽化蒙版混合，区域外的像素直接取自输入。</span></p>
+    </article>
+  </div>
+  <figure class="arch rise">
+    <a href="architecture.svg"><img src="architecture.svg" loading="lazy" alt="MangaTrans-Diffusion architecture from source page and glyph condition through VAE, DiT rectified flow, tiled sampling and local compositing."></a>
+    <figcaption><span><span class="en">Released v3 inference path</span><span class="zh">公开 v3 推理路径</span></span><a href="architecture.svg"><span class="en">Open full size ↗</span><span class="zh">打开大图 ↗</span></a></figcaption>
+  </figure>
+</div></section>
+
+<section id="closeup"><div class="wrap">
+  <div class="sec-head">
+    <span class="idx rise">02 · <span class="en">CLOSE-UP</span><span class="zh">细节</span></span>
+    <h2 class="rise" style="--d:.06s"><span class="en">Look closely.</span><span class="zh">放大看。</span></h2>
+    <p class="rise" style="--d:.12s"><span class="en">Four times the size, straight from the model with no retouching: vertical lettering set cleanly inside the balloon.</span><span class="zh">放大四倍，模型直出、没有修饰：竖排文字干净地排进气泡。</span></p>
+  </div>
+  <div class="zoom">
+    <figure class="rise"><div class="win"><img src="example/source.png" alt="Zoomed Japanese balloon"></div><figcaption><b lang="ja">おはよう</b><span><span class="en">input · ×4</span><span class="zh">输入 · ×4</span></span></figcaption></figure>
+    <figure class="out rise" style="--d:.1s"><div class="win"><img src="example/output.png" alt="Zoomed Chinese balloon"></div><figcaption><b lang="zh-CN">早上好</b><span><span class="en">v3 output · ×4</span><span class="zh">v3 输出 · ×4</span></span></figcaption></figure>
+  </div>
+</div></section>
+
+<section id="results"><div class="wrap">
+  <div class="sec-head">
+    <span class="idx rise">03 · <span class="en">RESULTS</span><span class="zh">结果</span></span>
+    <h2 class="rise" style="--d:.06s"><span class="en">72.1% of characters, read back.</span><span class="zh">72.1% 的汉字，被准确读回。</span></h2>
+    <p class="rise" style="--d:.12s"><span class="en">Evaluated on 215 held-out pages from unseen works, 2,864 text lines. Each reference line is cropped from the generated page and read back with OCR. Figures are from the project's reported evaluation.</span><span class="zh">在 215 页未见过作品的验证页、共 2,864 行上评测：把每个参考行从生成页裁出，用 OCR 读回。数字来自项目记录的评测。</span></p>
+  </div>
+  <div id="rows" class="rise">
+    <ol class="rows">
+      <li class="row floor"><span class="name"><span class="en">Japanese source page</span><span class="zh">日文原图</span><small><span class="en">floor · 0.7% lines exact</span><span class="zh">下限 · 整行全对 0.7%</span></small></span><span class="meter"><i style="--w:4.9%"></i></span><span class="num">4.9%</span></li>
+      <li class="row"><span class="name"><span class="en">Real pairs only · v2</span><span class="zh">仅真实配对 · v2</span><small><span class="en">29.0% lines exact</span><span class="zh">整行全对 29.0%</span></small></span><span class="meter"><i style="--w:60.7%"></i></span><span class="num">60.7%</span></li>
+      <li class="row ours"><span class="name"><span class="en">+ synthetic variants · v3</span><span class="zh">+ 合成变体 · v3</span><small><span class="en">released · 46.0% lines exact</span><span class="zh">本次发布 · 整行全对 46.0%</span></small></span><span class="meter"><i style="--w:72.1%"></i></span><span class="num">72.1%</span></li>
+      <li class="row ceil"><span class="name"><span class="en">Chinese reference through the VAE</span><span class="zh">中文参考页经 VAE</span><small><span class="en">ceiling · 94.7% lines exact</span><span class="zh">上限 · 整行全对 94.7%</span></small></span><span class="meter"><i style="--w:98.1%"></i></span><span class="num">98.1%</span></li>
+    </ol>
+  </div>
+  <div class="fine rise">
+    <p><span class="en">Bars show CJK character accuracy; “lines exact” counts whole lines read back with no error.</span><span class="zh">条形为汉字准确率；“整行全对”指整行文字被读回且没有错误。</span></p>
+    <ul class="fails">
+      <li><a href="https://github.com/jomify/MangaTrans-Diffusion/blob/main/README.md"><span class="en">Method, data and full details ↗</span><span class="zh">方法、数据与完整说明 ↗</span></a></li>
+    </ul>
+  </div>
+</div></section>
+
+<section id="run"><div class="wrap">
+  <div class="run rise">
+    <div>
+      <h2><span class="en">Render this exact panel.</span><span class="zh">复现这一格。</span></h2>
+      <p><span class="en">Needs a CUDA GPU and the separately licensed FLUX.1-dev VAE. Setup is in the <a href="https://github.com/jomify/MangaTrans-Diffusion#quick-start">README</a>. <a href="example/regions.json">Input file ↗</a></span><span class="zh">需要 CUDA 显卡和单独授权的 FLUX.1-dev VAE。配置见 <a href="https://github.com/jomify/MangaTrans-Diffusion/blob/main/README.zh-CN.md">中文说明</a>。<a href="example/regions.json">输入文件 ↗</a></span></p>
+    </div>
+    <div class="code">
+      <pre><code id="cmd">python translate_page.py showcase/example/source.png \
+  showcase/example/regions.json out.png \
+  --weights weights/mangatrans-v3 \
+  --width 0 --steps 30 --seed 0 --margin 12</code></pre>
+      <button class="copy" id="copy" type="button"><span class="en">copy</span><span class="zh">复制</span></button>
+    </div>
+  </div>
+</div></section>
+
 </main>
-<footer class="wrap footer"><span>© 2026 MangaTrans-Diffusion · MIT code + DiT weights</span><span><a href="https://github.com/jomify/MangaTrans-Diffusion">GitHub</a> · <a href="https://github.com/jomify/MangaTrans-Diffusion/releases/tag/v0.1.0">Weights release</a></span></footer>
+
+<footer class="wrap foot">
+  <span>© 2026 MangaTrans-Diffusion · MIT code + DiT weights</span>
+  <span><a href="https://github.com/jomify/MangaTrans-Diffusion">GitHub</a> · <a href="https://github.com/jomify/MangaTrans-Diffusion/releases/tag/v0.1.0">Weights release</a></span>
+</footer>
+
 <script>
+(() => {
   const root = document.documentElement;
-  const languageButton = document.getElementById("lang");
-  languageButton.addEventListener("click", () => {
-    const chinese = root.lang !== "zh-CN";
-    root.lang = chinese ? "zh-CN" : "en";
-    root.dataset.lang = chinese ? "zh" : "en";
-    languageButton.setAttribute("aria-label", chinese ? "切换到英文" : "Switch to Chinese");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const coarse = matchMedia("(pointer: coarse)").matches;
+
+  // language
+  const langButton = document.getElementById("lang");
+  const setLang = (zh) => {
+    root.lang = zh ? "zh-CN" : "en";
+    root.dataset.lang = zh ? "zh" : "en";
+    langButton.setAttribute("aria-label", zh ? "切换到英文" : "Switch to Chinese");
+    try { localStorage.setItem("mtd-lang", zh ? "zh" : "en"); } catch {}
+  };
+  let saved = null;
+  try { saved = localStorage.getItem("mtd-lang"); } catch {}
+  setLang(saved ? saved === "zh" : /^zh/i.test(navigator.language || ""));
+  langButton.addEventListener("click", () => setLang(root.dataset.lang !== "zh"));
+
+  // ticker (decorative keywords)
+  const words = ["rectified flow", "diffusion transformer", "glyph condition", "tiled sampling", "2D RoPE", "QK-norm", "adaLN", "frozen VAE", "soft-mask composite", "trained from scratch"];
+  const ticker = document.getElementById("ticker");
+  const run = words.map((w) => `<span>${w}</span>`).join("");
+  ticker.innerHTML = run + run + run + run;
+
+  // before / after
+  const reveal = document.getElementById("reveal");
+  const slider = document.getElementById("slider");
+  const setPos = (value) => reveal.style.setProperty("--pos", value + "%");
+  slider.addEventListener("input", () => setPos(slider.value));
+  if (!reduce) {
+    let touched = false;
+    ["pointerdown", "keydown"].forEach((name) => slider.addEventListener(name, () => (touched = true), { once: true }));
+    const from = 97, to = 50, duration = 1500;
+    slider.value = from; setPos(from);
+    setTimeout(() => {
+      const start = performance.now();
+      const tick = (now) => {
+        if (touched) return;
+        const t = Math.min((now - start) / duration, 1);
+        const value = from + (to - from) * (1 - Math.pow(1 - t, 4));
+        slider.value = value; setPos(value);
+        if (t < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    }, 900);
+  }
+
+  // region overlay
+  const regionButton = document.getElementById("regions");
+  regionButton.addEventListener("click", () => {
+    const on = regionButton.getAttribute("aria-pressed") !== "true";
+    regionButton.setAttribute("aria-pressed", String(on));
+    reveal.classList.toggle("show", on);
   });
+
+  // 3D tilt
+  const wrap = document.getElementById("stageWrap");
+  const stage = document.getElementById("stage");
+  if (!reduce && !coarse) {
+    wrap.addEventListener("pointermove", (event) => {
+      const box = wrap.getBoundingClientRect();
+      const x = (event.clientX - box.left) / box.width - 0.5;
+      const y = (event.clientY - box.top) / box.height - 0.5;
+      stage.style.setProperty("--ry", (x * 7).toFixed(2) + "deg");
+      stage.style.setProperty("--rx", (-y * 6).toFixed(2) + "deg");
+    });
+    wrap.addEventListener("pointerleave", () => { stage.style.setProperty("--ry", "0deg"); stage.style.setProperty("--rx", "0deg"); });
+  }
+
+  // vertical title swaps between Chinese and Japanese
+  const tate = document.getElementById("tate");
+  if (!reduce) {
+    let ja = false;
+    setInterval(() => { ja = !ja; tate.dataset.show = ja ? "ja" : "zh"; }, 3600);
+  }
+
+  // entrance
+  const items = document.querySelectorAll(".rise");
+  if ("IntersectionObserver" in window && !reduce) {
+    const io = new IntersectionObserver((entries) => entries.forEach((entry) => {
+      if (entry.isIntersecting) { entry.target.classList.add("in"); io.unobserve(entry.target); }
+    }), { threshold: 0.1 });
+    items.forEach((el) => io.observe(el));
+  } else items.forEach((el) => el.classList.add("in"));
+
+  // copy
+  const copy = document.getElementById("copy");
+  const label = copy.innerHTML;
+  copy.addEventListener("click", async () => {
+    try { await navigator.clipboard.writeText(document.getElementById("cmd").textContent); copy.textContent = "✓"; }
+    catch { copy.textContent = "!"; }
+    setTimeout(() => { copy.innerHTML = label; }, 1400);
+  });
+})();
 </script>
 </body>
 </html>

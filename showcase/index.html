@@ -168,26 +168,6 @@ html[data-lang=zh] h2{letter-spacing:-.02em}
 .zoom .out{border-color:#ff4a2b88;box-shadow:0 0 80px -20px #ff4a2b88}
 .zoom .out figcaption span{color:var(--verm-2)}
 
-/* results */
-.rows{margin:0;padding:0;list-style:none;display:grid;gap:14px}
-.row{display:grid;grid-template-columns:minmax(0,3.2fr) minmax(0,6fr) auto;gap:clamp(14px,3vw,44px);align-items:center;padding:22px 28px;border:1px solid var(--line);border-radius:20px;background:var(--card)}
-.row .name{font-size:15px}
-.row .name small{display:block;margin-top:3px;font:11.5px var(--mono);color:var(--faint)}
-.meter{position:relative;height:16px;border-radius:99px;background:#ffffff10;overflow:hidden}
-.meter i{position:absolute;inset:0 auto 0 0;width:var(--w);border-radius:99px;background:#e9e4d9;transform:scaleX(0);transform-origin:left;transition:transform 1.5s var(--ease)}
-.in .meter i{transform:scaleX(1)}
-.row:nth-child(2) .meter i{transition-delay:.1s}.row:nth-child(3) .meter i{transition-delay:.2s}.row:nth-child(4) .meter i{transition-delay:.3s}
-.row.floor .meter i{background:repeating-linear-gradient(90deg,#e9e4d9 0 2px,transparent 2px 6px)}
-.row.ceil .meter i{background:#ffffff44}
-.row .num{font:500 clamp(30px,3.4vw,48px)/1 var(--serif);letter-spacing:-.04em;min-width:3.3em;text-align:right;font-variant-numeric:tabular-nums}
-.row.ours{border-color:#ff4a2b88;background:linear-gradient(100deg,#ff4a2b26,var(--card) 60%);box-shadow:0 0 70px -24px #ff4a2b}
-.row.ours .meter i{background:linear-gradient(90deg,var(--verm-deep),var(--verm),#ffb15e);box-shadow:0 0 24px #ff4a2b}
-.row.ours .num{color:var(--verm)}
-.fine{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,6vw,100px);margin-top:34px}
-.fine p{margin:0;font-size:13px;color:var(--mute);text-wrap:pretty}
-.fails{margin:0;padding:0;list-style:none;display:grid;gap:10px;font-size:13px;color:var(--mute)}
-.fails a{color:var(--verm-2);text-decoration:none;font:12px var(--mono)}
-
 /* run */
 .run{position:relative;display:grid;grid-template-columns:minmax(0,4.4fr) minmax(0,7fr);gap:clamp(24px,5vw,72px);align-items:center;padding:clamp(30px,5vw,68px);border-radius:32px;overflow:hidden;background:var(--paper);color:#111;isolation:isolate}
 .run:before{content:"";position:absolute;z-index:-1;right:-120px;top:-120px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#ff7a58,#e0331a)}
@@ -226,8 +206,6 @@ html[data-lang=zh] h2{letter-spacing:-.02em}
   .word i{display:none}
   .cards{grid-template-columns:1fr}
   .frame{padding:8px;border-radius:16px}
-  .row{grid-template-columns:1fr auto;row-gap:12px;padding:18px}
-  .row .meter{grid-column:1/-1;order:3}
   .arch figcaption,.foot{flex-direction:column}
   .zoom figcaption{padding:16px 18px}
 }
@@ -235,8 +213,7 @@ html[data-lang=zh] h2{letter-spacing:-.02em}
   html{scroll-behavior:auto}
   *,*:before,*:after{transition:none!important;animation:none!important}
   .js .rise{opacity:1;transform:none}
-  .meter i{transform:none}
-  .ticker-track{transform:none}
+    .ticker-track{transform:none}
 }
 </style>
 </head>
@@ -247,7 +224,6 @@ html[data-lang=zh] h2{letter-spacing:-.02em}
   <nav class="links" aria-label="Primary">
     <a href="#method"><span class="en">Method</span><span class="zh">方法</span></a>
     <a href="#closeup"><span class="en">Close-up</span><span class="zh">细节</span></a>
-    <a href="#results"><span class="en">Results</span><span class="zh">结果</span></a>
     <a href="#run"><span class="en">Run</span><span class="zh">运行</span></a>
     <button class="toggle" id="lang" type="button" aria-label="Switch to Chinese">EN · 中</button>
   </nav>
@@ -282,7 +258,6 @@ html[data-lang=zh] h2{letter-spacing:-.02em}
       </div>
       <div class="chips rise" style="--d:.32s">
         <span class="pill"><b>119.3M</b><span class="en">params</span><span class="zh">参数</span></span>
-        <span class="pill"><b>72.1%</b><span class="en">CJK accuracy · reported</span><span class="zh">汉字准确率 · 历史记录</span></span>
         <span class="pill"><b>MIT</b><span class="en">code + weights</span><span class="zh">代码与权重</span></span>
       </div>
     </div>
@@ -359,28 +334,6 @@ html[data-lang=zh] h2{letter-spacing:-.02em}
   <div class="zoom">
     <figure class="rise"><div class="win"><img src="example/source.png" alt="Zoomed Japanese balloon"></div><figcaption><b lang="ja">おはよう</b><span><span class="en">input · ×4</span><span class="zh">输入 · ×4</span></span></figcaption></figure>
     <figure class="out rise" style="--d:.1s"><div class="win"><img src="example/output.png" alt="Zoomed Chinese balloon"></div><figcaption><b lang="zh-CN">早上好</b><span><span class="en">v3 output · ×4</span><span class="zh">v3 输出 · ×4</span></span></figcaption></figure>
-  </div>
-</div></section>
-
-<section id="results"><div class="wrap">
-  <div class="sec-head">
-    <span class="idx rise">03 · <span class="en">RESULTS</span><span class="zh">结果</span></span>
-    <h2 class="rise" style="--d:.06s"><span class="en">72.1% of characters, read back.</span><span class="zh">72.1% 的汉字，被准确读回。</span></h2>
-    <p class="rise" style="--d:.12s"><span class="en">Evaluated on 215 held-out pages from unseen works, 2,864 text lines. Each reference line is cropped from the generated page and read back with OCR. Figures are from the project's reported evaluation.</span><span class="zh">在 215 页未见过作品的验证页、共 2,864 行上评测：把每个参考行从生成页裁出，用 OCR 读回。数字来自项目记录的评测。</span></p>
-  </div>
-  <div id="rows" class="rise">
-    <ol class="rows">
-      <li class="row floor"><span class="name"><span class="en">Japanese source page</span><span class="zh">日文原图</span><small><span class="en">floor · 0.7% lines exact</span><span class="zh">下限 · 整行全对 0.7%</span></small></span><span class="meter"><i style="--w:4.9%"></i></span><span class="num">4.9%</span></li>
-      <li class="row"><span class="name"><span class="en">Real pairs only · v2</span><span class="zh">仅真实配对 · v2</span><small><span class="en">29.0% lines exact</span><span class="zh">整行全对 29.0%</span></small></span><span class="meter"><i style="--w:60.7%"></i></span><span class="num">60.7%</span></li>
-      <li class="row ours"><span class="name"><span class="en">+ synthetic variants · v3</span><span class="zh">+ 合成变体 · v3</span><small><span class="en">released · 46.0% lines exact</span><span class="zh">本次发布 · 整行全对 46.0%</span></small></span><span class="meter"><i style="--w:72.1%"></i></span><span class="num">72.1%</span></li>
-      <li class="row ceil"><span class="name"><span class="en">Chinese reference through the VAE</span><span class="zh">中文参考页经 VAE</span><small><span class="en">ceiling · 94.7% lines exact</span><span class="zh">上限 · 整行全对 94.7%</span></small></span><span class="meter"><i style="--w:98.1%"></i></span><span class="num">98.1%</span></li>
-    </ol>
-  </div>
-  <div class="fine rise">
-    <p><span class="en">Bars show CJK character accuracy; “lines exact” counts whole lines read back with no error.</span><span class="zh">条形为汉字准确率；“整行全对”指整行文字被读回且没有错误。</span></p>
-    <ul class="fails">
-      <li><a href="https://github.com/jomify/MangaTrans-Diffusion/blob/main/README.md"><span class="en">Method, data and full details ↗</span><span class="zh">方法、数据与完整说明 ↗</span></a></li>
-    </ul>
   </div>
 </div></section>
 

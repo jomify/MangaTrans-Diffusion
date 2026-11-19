@@ -5,8 +5,7 @@
 A diffusion transformer trained from scratch to render supplied Chinese text into manga pages.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-222222.svg)](LICENSE)
-[![CPU tests](https://github.com/jomify/MangaTrans-Diffusion/actions/workflows/tests.yml/badge.svg)](https://github.com/jomify/MangaTrans-Diffusion/actions/workflows/tests.yml)
-[![Weights](https://img.shields.io/badge/GitHub-Weights-cc442f)](https://github.com/jomify/MangaTrans-Diffusion/releases/tag/v0.1.0)
+[![Weights](https://img.shields.io/badge/Hugging%20Face-Weights-cc442f?logo=huggingface&logoColor=white)](https://huggingface.co/Jomify/MangaTrans-Diffusion-v3)
 
 [中文说明](README.zh-CN.md) · [GPU example](showcase/example/README.md) · [Reproduction](docs/REPRODUCING.md)
 
@@ -36,7 +35,7 @@ images to specify the characters to write.
 | :--- | :--- | :--- | :--- |
 | 119.3M parameters | Source page + glyph image | Rectified flow, overlapping tiles | MIT code + DiT weights |
 
-> **Availability:** Code and v3 weights are live in [GitHub Releases](https://github.com/jomify/MangaTrans-Diffusion/releases/tag/v0.1.0). The Hugging Face model mirror and hosted Space are pending publication.
+> **Availability:** Code is on GitHub and the v3 weights are on [Hugging Face](https://huggingface.co/Jomify/MangaTrans-Diffusion-v3) (the same files are also attached to the [GitHub Release](https://github.com/jomify/MangaTrans-Diffusion/releases/tag/v0.1.0)). The hosted Space is pending publication.
 
 ## Quick start
 
@@ -50,11 +49,11 @@ python -m venv .venv
 # Linux/macOS: source .venv/bin/activate
 # Windows PowerShell: .venv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
-# Download model.safetensors and config.json from the release into weights/mangatrans-v3/
+hf download Jomify/MangaTrans-Diffusion-v3 model.safetensors config.json --local-dir weights/mangatrans-v3
 python translate_page.py page.png examples/regions.json out.png --weights weights/mangatrans-v3
 ```
 
-Download the two files from [the release assets](https://github.com/jomify/MangaTrans-Diffusion/releases/tag/v0.1.0) before running inference.
+The two weight files come from [Hugging Face](https://huggingface.co/Jomify/MangaTrans-Diffusion-v3); the [GitHub Release](https://github.com/jomify/MangaTrans-Diffusion/releases/tag/v0.1.0) carries the same files.
 Edit `examples/regions.json` to fit **your own input page** before running.
 Inference also loads the separately licensed FLUX.1-dev VAE. Obtain access under
 its upstream terms, or pass `--vae /path/to/local/vae`. The VAE is not bundled;

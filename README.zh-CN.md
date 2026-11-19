@@ -4,7 +4,7 @@
 
 从零训练的 1.193 亿参数扩散 Transformer，为指定漫画区域渲染中文。
 
-[English](README.md) · [模型权重](https://github.com/jomify/MangaTrans-Diffusion/releases/tag/v0.1.0) · [GPU 推理样例](showcase/example/README.md) · [MIT 许可](LICENSE)
+[English](README.md) · [模型权重](https://huggingface.co/Jomify/MangaTrans-Diffusion-v3) · [GPU 推理样例](showcase/example/README.md) · [MIT 许可](LICENSE)
 
 </div>
 
@@ -30,7 +30,7 @@
 | :--- | :--- | :--- | :--- |
 | 119.3M 参数 DiT | 原图 + 字形图 | Rectified flow + 重叠分块 | MIT 代码与 DiT 权重 |
 
-> **发布状态：** 代码和 v3 权重已在 [GitHub Release](https://github.com/jomify/MangaTrans-Diffusion/releases/tag/v0.1.0) 公开；Hugging Face 模型镜像和在线 Space 尚待发布。
+> **发布状态：** 代码在 GitHub，v3 权重在 [Hugging Face](https://huggingface.co/Jomify/MangaTrans-Diffusion-v3)（同样的文件也附在 [GitHub Release](https://github.com/jomify/MangaTrans-Diffusion/releases/tag/v0.1.0) 上）；在线 Space 尚待发布。
 
 ## 快速开始
 
@@ -43,12 +43,12 @@ python -m venv .venv
 # Linux/macOS: source .venv/bin/activate
 # Windows PowerShell: .venv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
-# 从下方 Release 下载权重和配置，放入 weights/mangatrans-v3/
+hf download Jomify/MangaTrans-Diffusion-v3 model.safetensors config.json --local-dir weights/mangatrans-v3
 python translate_page.py page.png examples/regions.json out.png --weights weights/mangatrans-v3
 ```
 
-请先从 [Release](https://github.com/jomify/MangaTrans-Diffusion/releases/tag/v0.1.0) 下载
-`model.safetensors` 和 `config.json`。请先修改 `examples/regions.json`，使坐标适合自己的输入页。
+请先从 [Hugging Face](https://huggingface.co/Jomify/MangaTrans-Diffusion-v3) 下载
+`model.safetensors` 和 `config.json`（[GitHub Release](https://github.com/jomify/MangaTrans-Diffusion/releases/tag/v0.1.0) 上有同样的文件）。请先修改 `examples/regions.json`，使坐标适合自己的输入页。
 
 推理需要单独获取 FLUX.1-dev VAE，并遵守上游条款；VAE 不随本项目发布。
 可用 `--vae /path/to/local/vae` 指定本地目录。中文字体会自动检测；手动设置示例：

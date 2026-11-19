@@ -4,7 +4,7 @@ The Japanese panel shows a gardener greeting a cat with **おはよう**. ImageG
 
 The [output PNG](output.png) was written directly by the repository CLI. The [comparison image](comparison.webp) places the two complete panels side by side for display. Use the PNGs for pixel comparisons.
 
-From the repository root, after downloading the [v3 inference weights](https://github.com/jomify/MangaTrans-Diffusion/releases/tag/v0.1.0) and obtaining a compatible VAE, run:
+From the repository root, after downloading the [v3 inference weights](https://huggingface.co/Jomify/MangaTrans-Diffusion-v3) and obtaining a compatible VAE, run:
 
 ```bash
 python translate_page.py showcase/example/source.png showcase/example/regions.json reproduced.png --weights weights/mangatrans-v3 --vae /path/to/vae --width 0 --steps 30 --seed 0 --margin 12
